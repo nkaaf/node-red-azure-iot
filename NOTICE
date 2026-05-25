@@ -1,0 +1,10 @@
+This plugin is inspired by following implementations, it is written in TypeScript, with many bug fixes, modernization of toolchain and package upgrades.
+
+Acknowledgment:
+- Azure (https://github.com/Azure/azure-iot-sdk-node/tree/5ae0a8ccd85fdec6a7ee269bb50018dadf9f6a1e/device/node-red)
+- Lucas Humenhub (and contributors) https://github.com/lcarli/NodeRedIoTHub
+- Marian Raphael https://github.com/MarianRaphael/node-red-contrib-azure-iot-hub
+
+Thank you for the good foundation!
+
+Not affiliated with or endorsed by Microsoft. Icons are taken from the "Azure Architecture Center" (https://learn.microsoft.com/en-us/azure/architecture/icons/).

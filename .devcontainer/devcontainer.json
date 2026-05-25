@@ -1,0 +1,21 @@
+{
+    "name": "NodeRed - Plugin",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:4.0.9-24-trixie",
+    "postCreateCommand": "npm install",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.vscode-github-actions"
+            ]
+        }
+    },
+    "forwardPorts": [
+        1880
+    ],
+    "portsAttributes": {
+        "1880": {
+            "label": "NodeRed",
+            "onAutoForward": "openBrowser"
+        }
+    }
+}

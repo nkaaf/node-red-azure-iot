@@ -1,0 +1,53 @@
+{
+    "common": {
+        "status": {
+            "sent": "sent",
+            "received": "received"
+        }
+    },
+    "azure-iot-device-receiver": {
+        "label": {
+            "protocol": "Protocol",
+            "hostname": "Hostname",
+            "deviceId": "Device Id",
+            "sasKey": "SAS Key"
+        },
+        "placeholder": {
+            "hostname": "*.azure-devices.net",
+            "deviceId": "myDeviceId",
+            "sasKey": "SAS key"
+        }
+    },
+    "azure-iot-device-transmitter": {
+        "label": {
+            "protocol": "Protocol",
+            "hostname": "Hostname",
+            "deviceId": "Device Id",
+            "sasKey": "SAS Key"
+        },
+        "option": {
+            "definedInMessage": "Defined in message"
+        },
+        "placeholder": {
+            "definedInMessage": "Leave empty for 'Defined in Message'"
+        },
+        "tip": {
+            "dynamicConfig": "If a field is left empty (or Protocol is set to <b>Defined in message</b>), the value must be provided on the incoming <code>msg</code>."
+        }
+    },
+    "azure-iot-hub-receiver": {
+        "label": {
+            "connectionString": "Connection String",
+            "consumerGroup": "Consumer Group",
+            "eventHubName": "Event Hub Name"
+        },
+        "placeholder": {
+            "connectionString": "IoT Hub connection string",
+            "consumerGroup": "$Default",
+            "eventHubName": "optional"
+        },
+        "tip": {
+            "eventHubName": "If 'Event Hub Name' is not set, the node uses the IoT Hub built-in Event Hub compatible endpoint."
+        }
+    }
+}
