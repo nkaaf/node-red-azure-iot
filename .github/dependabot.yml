@@ -1,0 +1,21 @@
+version: 2
+
+multi-ecosystem-groups:
+  infrastructure:
+    schedule:
+      interval: "weekly"
+
+updates:
+  - package-ecosystem: "npm"
+    versioning-strategy: "increase-if-necessary"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    multi-ecosystem-group: "infrastructure"
+    patterns: ["*"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    multi-ecosystem-group: "infrastructure"
+    patterns: ["*"]
