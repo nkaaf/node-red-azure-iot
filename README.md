@@ -1,4 +1,4 @@
-# node-red-contrib-azure-iot
+# @nkaaf/azure-iot
 
 Node-RED nodes for interacting with **Azure IoT**:
 - Receive **device-to-cloud** events from IoT Hub using the **Event Hub compatible endpoint**
