@@ -1,0 +1,355 @@
+<script type="text/html" data-help-name="azure-iot-device-receiver">
+    <p>Connects to an Azure IoT Hub device endpoint and receives cloud-to-device messages using the configured protocol.</p>
+
+    <h3>Inputs</h3>
+    <p>This node has no inputs. It emits a message whenever a cloud-to-device message is received.</p>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Received message
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">buffer | string | object</span></dt>
+                <dd>The message body returned from Azure IoT.</dd>
+
+                <dt>properties <span class="property-type">array</span></dt>
+                <dd>User/system properties from the received message.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>Configure the node with your device connection details:</p>
+    <ul>
+        <li><b>Protocol</b>: One of <code>http</code>, <code>amqp</code>, <code>mqtt</code>, <code>amqpWs</code>.</li>
+        <li><b>Hostname</b>: Your IoT Hub host name (<code>*.azure-devices.net</code>).</li>
+        <li><b>Device Id</b>: The IoT Hub device identity.</li>
+        <li><b>SAS Key</b>: The device SAS key used to authenticate.</li>
+    </ul>
+
+    <p>When a message is received, the node outputs the payload including the properties.</p>
+
+    <p><b>Node status</b> indicates the current state:</p>
+    <ul>
+        <li><code>connected</code> - connected to IoT Hub and waiting for messages</li>
+        <li><code>received</code> - a message has been received and emitted</li>
+        <li><code>error</code> - an error occurred</li>
+        <li><code>disconnected</code> - not connected / connection closed</li>
+    </ul>
+
+    <h3>References</h3>
+    <ul>
+        <li><a href="https://learn.microsoft.com/azure/iot-hub/" target="_blank"> Azure IoT Hub documentation</a></li>
+        <li><a href="https://github.com/Azure/azure-iot-sdk-node" target="_blank"> Azure IoT SDK for Node.js</a></li>
+        <li><a href="https://github.com/nkaaf/node-red-azure-iot" target="_blank"> This nodes GitHub repository</a></li>
+    </ul>
+</script>
+
+<script type="text/html" data-template-name="azure-iot-device-receiver">
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span>
+        </label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-protocol">
+            <i class="fa fa-exchange"></i> <span data-i18n="azure-iot-device-receiver.label.protocol"></span>
+        </label>
+        <select id="node-input-protocol" style="width:70%;">
+            <option value="http">http</option>
+            <option value="amqp">amqp</option>
+            <option value="mqtt">mqtt</option>
+            <option value="amqpWs">amqpWs</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-hostname">
+            <i class="fa fa-cloud"></i> <span data-i18n="azure-iot-device-receiver.label.hostname"></span>
+        </label>
+        <input type="text" id="node-input-hostname" required
+               data-i18n="[placeholder]azure-iot-device-receiver.placeholder.hostname"
+               style="width:70%;">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-deviceId">
+            <i class="fa fa-hdd-o"></i> <span data-i18n="azure-iot-device-receiver.label.deviceId"></span>
+        </label>
+        <input type="text" id="node-input-deviceId" required
+               data-i18n="[placeholder]azure-iot-device-receiver.placeholder.deviceId"
+               style="width:70%;">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-sasKey">
+            <i class="fa fa-key"></i> <span data-i18n="azure-iot-device-receiver.label.sasKey"></span>
+        </label>
+        <input type="password" id="node-input-sasKey" required
+               data-i18n="[placeholder]azure-iot-device-receiver.placeholder.sasKey"
+               style="width:70%;">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="azure-iot-device-transmitter">
+    <p>Sends device-to-cloud messages to an Azure IoT Hub using the configured device credentials. Connection settings can be defined in the node configuration or provided dynamically on each input message.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string | buffer | object</span></dt>
+        <dd>The message body to send to Azure IoT Hub. If an object is provided, it is sent as JSON.</dd>
+
+        <dt class="optional">protocol <span class="property-type">string</span></dt>
+        <dd>Required if the node’s <b>Protocol</b> is set to <i>Defined in message</i>. One of: <code>http</code>, <code>amqp</code>, <code>mqtt</code>, <code>amqpWs</code>.</dd>
+
+        <dt class="optional">hostname <span class="property-type">string</span></dt>
+        <dd>Required if <b>Hostname</b> is left blank in the node configuration (<code>*.azure-devices.net</code>).</dd>
+
+        <dt class="optional">deviceId <span class="property-type">string</span></dt>
+        <dd>Required if <b>Device Id</b> is left blank in the node configuration.</dd>
+
+        <dt class="optional">sasKey <span class="property-type">string</span></dt>
+        <dd>Required if <b>SAS Key</b> is left blank in the node configuration.</dd>
+
+        <dt class="optional">properties <span class="property-type">object</span></dt>
+        <dd>Optional application properties to attach to the outgoing IoT message.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Send result
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">string</span></dt>
+                <dd>Confirmation text: <code>"Message sent."</code></dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>The node uses the values configured in the edit dialog unless they are left blank. If a value is blank (or protocol is set to <i>Defined in message</i>), it will be taken from the incoming message.</p>
+
+    <p><b>Configuration precedence</b>:</p>
+    <ul>
+        <li>If a node field is set (non-empty), it is used.</li>
+        <li>Otherwise the value must be provided on <code>msg</code> (for example <code>msg.hostname</code>).</li>
+    </ul>
+
+    <p><b>Node status</b> reflects the connection/sending state and may show states such as <code>connected</code>, <code>sent</code>, <code>error</code>, and <code>disconnected</code>.</p>
+
+    <h3>References</h3>
+    <ul>
+        <li><a href="https://learn.microsoft.com/azure/iot-hub/" target="_blank"> Azure IoT Hub documentation</a></li>
+        <li><a href="https://github.com/Azure/azure-iot-sdk-node" target="_blank"> Azure IoT SDK for Node.js</a></li>
+        <li><a href="https://github.com/nkaaf/node-red-azure-iot" target="_blank"> This nodes GitHub repository</a></li>
+    </ul>
+</script>
+
+<script type="text/html" data-template-name="azure-iot-device-transmitter">
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span>
+        </label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-protocol">
+            <i class="fa fa-exchange"></i> <span data-i18n="azure-iot-device-transmitter.label.protocol"></span>
+        </label>
+        <select id="node-input-protocol" style="width:70%;">
+            <option value="" data-i18n="azure-iot-device-transmitter.option.definedInMessage"></option>
+            <option value="http">http</option>
+            <option value="amqp">amqp</option>
+            <option value="mqtt">mqtt</option>
+            <option value="amqpWs">amqpWs</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-hostname">
+            <i class="fa fa-cloud"></i> <span data-i18n="azure-iot-device-transmitter.label.hostname"></span>
+        </label>
+        <input type="text" id="node-input-hostname" style="width:70%;"
+               data-i18n="[placeholder]azure-iot-device-transmitter.placeholder.definedInMessage">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-deviceId">
+            <i class="fa fa-hdd-o"></i> <span data-i18n="azure-iot-device-transmitter.label.deviceId"></span>
+        </label>
+        <input type="text" id="node-input-deviceId" style="width:70%;"
+               data-i18n="[placeholder]azure-iot-device-transmitter.placeholder.definedInMessage">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-sasKey">
+            <i class="fa fa-key"></i> <span data-i18n="azure-iot-device-transmitter.label.sasKey"></span>
+        </label>
+        <input type="password" id="node-input-sasKey" style="width:70%;"
+               data-i18n="[placeholder]azure-iot-device-transmitter.placeholder.definedInMessage">
+    </div>
+
+    <div class="form-tips">
+        <span data-i18n="[html]azure-iot-device-transmitter.tip.dynamicConfig"></span>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="azure-iot-hub-receiver">
+    <p>Receives device-to-cloud telemetry/events from an Azure IoT Hub via the Event Hub compatible endpoint.</p>
+
+    <h3>Inputs</h3>
+    <p>This node has no inputs. It outputs a message for every event received.</p>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Received event
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">any</span></dt>
+                <dd>The event body (<code>event.body</code>).</dd>
+
+                <dt class="optional">custom_properties <span class="property-type">object</span></dt>
+                <dd>Custom/application properties (<code>event.properties</code>).</dd>
+
+                <dt class="optional">system_properties <span class="property-type">object</span></dt>
+                <dd>System properties (<code>event.systemProperties</code>).</dd>
+
+                <dt class="optional">correlation_id <span class="property-type">string</span></dt>
+                <dd>The correlation id (<code>event.correlationId</code>).</dd>
+
+                <dt class="optional">message_id <span class="property-type">string</span></dt>
+                <dd>The message id (<code>event.messageId</code>).</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>Configure the node with:</p>
+    <ul>
+        <li><b>Connection String</b> - IoT Hub/Event Hub compatible connection string.</li>
+        <li><b>Consumer Group</b> - The Event Hub consumer group (often <code>$Default</code>).</li>
+        <li><b>Event Hub Name</b> - Optional. If provided, overrides the default Event Hub compatible name.</li>
+    </ul>
+
+    <p>The node status reflects the connection state (for example: <code>connected</code>, <code>receiving</code>, <code>error</code>, <code>disconnected</code>).</p>
+
+    <h3>References</h3>
+    <ul>
+        <li><a href="https://learn.microsoft.com/azure/iot-hub/" target="_blank"> Azure IoT Hub documentation</a></li>
+        <li><a href="https://github.com/Azure/azure-iot-sdk-node" target="_blank"> Azure IoT SDK for Node.js</a></li>
+        <li><a href="https://github.com/nkaaf/node-red-azure-iot" target="_blank"> This nodes GitHub repository</a></li>
+    </ul>
+</script>
+
+<script type="text/html" data-template-name="azure-iot-hub-receiver">
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span>
+        </label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-connectionString">
+            <i class="fa fa-plug"></i> <span data-i18n="azure-iot-hub-receiver.label.connectionString"></span>
+        </label>
+        <input type="password" id="node-input-connectionString" required style="width:70%;"
+               data-i18n="[placeholder]azure-iot-hub-receiver.placeholder.connectionString">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-consumerGroup">
+            <i class="fa fa-users"></i> <span data-i18n="azure-iot-hub-receiver.label.consumerGroup"></span>
+        </label>
+        <input type="text" id="node-input-consumerGroup" required style="width:70%;"
+               data-i18n="[placeholder]azure-iot-hub-receiver.placeholder.consumerGroup">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-eventHubName">
+            <i class="fa fa-random"></i> <span data-i18n="azure-iot-hub-receiver.label.eventHubName"></span>
+        </label>
+        <input type="text" id="node-input-eventHubName" style="width:70%;"
+               data-i18n="[placeholder]azure-iot-hub-receiver.placeholder.eventHubName">
+    </div>
+
+    <div class="form-tips">
+        <span data-i18n="[html]azure-iot-hub-receiver.tip.eventHubName"></span>
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType("azure-iot-device-receiver", {
+        category: 'Azure',
+        color: '#0078D4',
+        defaults: {
+            name: { value: "" },
+            protocol: { value: "", required: true },
+            hostname: { value: "", required: true },
+            deviceId: { value: "", required: true },
+            sasKey: { value: "", required: true }
+        },
+        label: function () {
+            return this.name || "Azure IoT Device - Receiver";
+        },
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
+        },
+        paletteLabel: "IoT Device - Receiver",
+        inputs: 0,
+        outputs: 1,
+        icon: "10182-icon-service-IoT-Hub.svg",
+        credentials: {
+            sasKey: { type: "password" }
+        }
+    });
+
+    RED.nodes.registerType("azure-iot-device-transmitter", {
+        category: 'Azure',
+        color: '#0078D4',
+        defaults: {
+            name: { value: "" },
+            protocol: { value: "" },
+            hostname: { value: "" },
+            deviceId: { value: "" },
+            sasKey: { value: "" }
+        },
+        label: function () {
+            return this.name || "Azure IoT Device - Transmitter";
+        },
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
+        },
+        paletteLabel: "IoT Device - Transmitter",
+        inputs: 1,
+        outputs: 1,
+        icon: "10182-icon-service-IoT-Hub.svg",
+        credentials: {
+            sasKey: { type: "password" }
+        }
+    });
+
+    RED.nodes.registerType("azure-iot-hub-receiver", {
+        category: 'Azure',
+        color: '#0078D4',
+        defaults: {
+            name: { value: "" },
+            connectionString: { value: "", required: true },
+            consumerGroup: { value: "", required: true },
+            eventHubName: { value: "" }
+        },
+        label: function () {
+            return this.name || "Azure IoT Hub - Receiver";
+        },
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
+        },
+        paletteLabel: "IoT Hub - Receiver",
+        inputs: 0,
+        outputs: 1,
+        icon: "10182-icon-service-IoT-Hub.svg",
+        credentials: {
+            connectionString: { type: "password" },
+        }
+    });
+</script>

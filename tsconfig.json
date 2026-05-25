@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "allowJs": false,
+    "sourceMap": true,
+    "outDir": "dist",
+    "types": [
+      "node"
+    ],
+    "noEmit": true,
+    "strict": true,
+    "moduleResolution": "node",
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}
