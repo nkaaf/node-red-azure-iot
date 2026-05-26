@@ -1,6 +1,6 @@
 {
-  "name": "@nkaaf/nodered-azure-iot",
-  "description": "Collection of Azure IoT nodes for NodeRed.",
+  "name": "@nkaaf/node-red-azure-iot",
+  "description": "Collection of Azure IoT nodes for Node-RED.",
   "version": "1.0.0",
   "license": "Apache-2.0",
   "engines": {

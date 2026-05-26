@@ -1,5 +1,5 @@
 {
-    "name": "NodeRed - Plugin",
+    "name": "Node-RED - Plugin",
     "image": "mcr.microsoft.com/devcontainers/typescript-node:4.0.9-24-trixie",
     "postCreateCommand": "npm install",
     "customizations": {
@@ -14,7 +14,7 @@
     ],
     "portsAttributes": {
         "1880": {
-            "label": "NodeRed",
+            "label": "Node-RED",
             "onAutoForward": "openBrowser"
         }
     }
