@@ -1,6 +1,6 @@
 {
     "name": "Node-RED - Plugin",
-    "image": "mcr.microsoft.com/devcontainers/typescript-node:4.0.9-24-trixie",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:4.0.10-24-trixie",
     "postCreateCommand": "npm install",
     "customizations": {
         "vscode": {
