@@ -6,7 +6,6 @@
   "engines": {
     "node": ">=20"
   },
-  "type": "commonjs",
   "files": [
     "dist/",
     "NOTICE",
@@ -17,7 +16,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm-run-all clean build:runtime build:assets",
-    "build:runtime": "tsc --project tsconfig.build.json",
+    "build:runtime": "tsc --project tsconfig.json",
     "build:assets": "cpy \"src/icons/**/*\" dist/azure-iot/icons --parents && cpy \"src/locales/**/*\" dist/azure-iot/locales --parents && cpy \"src/azure-iot/**/*.html\" dist/azure-iot --parents",
     "prepack": "npm run build",
     "nodered": "node-red"

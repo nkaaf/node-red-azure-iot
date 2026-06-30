@@ -2,7 +2,7 @@
 node_modules
 # Node.js - Build
 dist/
-nkaaf-azure-iot-*
+nkaaf-node-red-azure-iot-*
 
 # JetBrains
 ./.idea/
