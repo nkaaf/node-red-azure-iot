@@ -7,10 +7,34 @@ multi-ecosystem-groups:
 
 updates:
   - package-ecosystem: "npm"
-    versioning-strategy: "increase-if-necessary"
     directory: "/"
     schedule:
       interval: "weekly"
+
+    groups:
+      typescript:
+        patterns:
+          - "typescript"
+
+      node-types:
+        patterns:
+          - "@types/node"
+
+      node-red-types:
+        patterns:
+          - "@types/node-red"
+
+      azure:
+        patterns:
+          - "@azure/*"
+          - "azure-iot-*"
+
+      tooling:
+        patterns:
+          - "cpy-cli"
+          - "npm-run-all"
+          - "rimraf"
+          - "node-red"
   - package-ecosystem: "devcontainers"
     directory: "/"
     multi-ecosystem-group: "infrastructure"
