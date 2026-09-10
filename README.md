@@ -53,7 +53,23 @@ You can configure connection values in the node **or** provide them on each inco
 
 **Input**
 - `msg.payload` (`string | Buffer | object`)  
-  If an object is provided it is sent as JSON (depending on your implementation).
+  If an object is provided it is sent as JSON.
+
+- `msg.properties` *(optional, since 1.0.0, documented since 1.1.0)* – an array of custom properties that will be attached to the IoT message.  
+  Each entry must be an object with two **string** fields: `key` and `value`.
+
+  **Format**
+
+  ```json
+  [
+    { "key": "prop1", "value": "value1" },
+    { "key": "prop2", "value": "value2" }
+  ]
+  ```
+- `msg.messageId` *(optional, since 1.1.0)* (`string`) – a unique identifier for the message.
+- `msg.correlationId` *(optional, since 1.1.0)* (`string`) – an identifier used to correlate this message with another message or request.
+- `msg.userId` *(optional, since 1.1.0)* (`string`) – identifies the user or entity that created the message.
+
 
 **Dynamic config (only if not set in the node UI)**
 - `msg.protocol` one of `http | amqp | mqtt | amqpWs`

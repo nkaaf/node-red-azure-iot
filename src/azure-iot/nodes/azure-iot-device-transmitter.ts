@@ -71,27 +71,52 @@ export class AzureIoTDeviceTransmitter extends AzureIoTDevice {
             this.connect();
         }
 
-        const payload = typeof (messageIn.payload) != "string" ? messageIn.payload : JSON.parse(messageIn.payload);
-        const properties = messageIn.hasOwnProperty("properties") && Array.isArray(messageIn.properties) ? messageIn.properties : [];
-        this.sendMessage(payload, properties);
+        const message = new Message(JSON.stringify(typeof (messageIn.payload) != "string" ? messageIn.payload : JSON.parse(messageIn.payload)));
+        message.properties.propertyList =
+            Array.isArray(messageIn.properties)
+                ? messageIn.properties
+                : [];
+        message.messageId =
+            typeof messageIn.messageId === "string"
+                ? messageIn.messageId
+                : "";
+        message.correlationId =
+            typeof messageIn.correlationId === "string"
+                ? messageIn.correlationId
+                : "";
+        message.userId =
+            typeof messageIn.userId === "string"
+                ? messageIn.userId
+                : "";
+        message.contentType = "application/json";
+        message.contentEncoding = "utf-8";
+        this.sendMessage(message);
     };
 
-    private sendMessage = (data: any, properties: any[]) => {
-        if (this.client !== undefined) {
-            const message = new Message(JSON.stringify(data));
-            message.properties.propertyList = properties;
-
-            this.node.debug(`Sending Message to Azure IoT Hub\n\tPayload: ${message.getData()}\n\tProperties: ${JSON.stringify(message.properties.propertyList)}`);
-            this.node.status(Status.sent);
-            this.client.sendEvent(message, (error, _response) => {
-                if (error) {
-                    this.error(`Error while trying to send message: ${error}`);
-                } else {
-                    this.node.debug("Message sent.");
-                    this.node.send({ payload: "Message sent." });
-                    this.node.status(Status.connected);
-                }
-            });
+    private sendMessage = (message: Message) => {
+        if (this.client === undefined) {
+            this.error("Cannot send message: Azure IoT Hub client is not initialized.");
+            return;
         }
+
+        this.node.debug(
+            `Sending Message to Azure IoT Hub\n` +
+            `\tMessageId: ${message.messageId}\n` +
+            `\tCorrelationId: ${message.correlationId}\n` +
+            `\tContentType: ${message.contentType}\n` +
+            `\tContentEncoding: ${message.contentEncoding}\n` +
+            `\tProperties: ${JSON.stringify(message.properties.propertyList)}\n` +
+            `\tPayloadSize: ${message.getBytes().length} bytes`
+        );
+
+        this.client.sendEvent(message, (error, _response) => {
+            if (error) {
+                this.error(`Error while trying to send message: ${error}`);
+            } else {
+                this.node.debug("Message sent.");
+                this.node.send({ payload: "Message sent." });
+                this.node.status(Status.sent);
+            }
+        });
     };
 }
