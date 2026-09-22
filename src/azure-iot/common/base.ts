@@ -35,7 +35,7 @@ export abstract class AzureIoTDevice {
 
         this.hostname = config.hostname;
         this.deviceId = config.deviceId;
-        this.sasKey = config.sasKey;
+        this.sasKey = node.credentials?.sasKey ?? "";
         this.protocol = config.protocol;
 
         this.node.on('close', this.disconnect);
@@ -65,7 +65,12 @@ export abstract class AzureIoTDevice {
     protected connect = (): void => {
         const connectionString = this.buildConnectionString();
 
-        this.node.debug(`Connecting to Azure:\n\tProtocol: ${this.protocol}\n\tConnection string: ${connectionString}`);
+        this.node.debug(
+            `Connecting to Azure:\n` +
+            `\tProtocol: ${this.protocol}\n` +
+            `\tHostname: ${this.hostname}\n` +
+            `\tDevice ID: ${this.deviceId}`
+        );
 
         const client = Client.fromConnectionString(connectionString, Protocols[this.protocol]);
         client.open((error) => {
