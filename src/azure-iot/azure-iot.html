@@ -286,8 +286,7 @@
             name: { value: "" },
             protocol: { value: "", required: true },
             hostname: { value: "", required: true },
-            deviceId: { value: "", required: true },
-            sasKey: { value: "", required: true }
+            deviceId: { value: "", required: true }
         },
         label: function () {
             return this.name || "Azure IoT Device - Receiver";
@@ -311,8 +310,7 @@
             name: { value: "" },
             protocol: { value: "" },
             hostname: { value: "" },
-            deviceId: { value: "" },
-            sasKey: { value: "" }
+            deviceId: { value: "" }
         },
         label: function () {
             return this.name || "Azure IoT Device - Transmitter";
@@ -334,7 +332,6 @@
         color: '#0078D4',
         defaults: {
             name: { value: "" },
-            connectionString: { value: "", required: true },
             consumerGroup: { value: "", required: true },
             eventHubName: { value: "" }
         },
