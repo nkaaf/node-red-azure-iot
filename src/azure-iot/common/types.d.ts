@@ -11,7 +11,6 @@ export type Protocol = typeof Amqp | typeof AmqpWs | typeof Http | typeof Mqtt;
 export interface AzureIoTDeviceOptions {
     hostname: string;
     deviceId: string;
-    sasKey: string;
     protocol: string;
 }
 export interface AzureIoTDeviceNodeProperties
@@ -25,7 +24,6 @@ export type AzureIoTDeviceTransmitterNode = Node<AzureIoTDeviceNodeCredentials>;
 export type AzureIoTDeviceReceiverNode = Node<AzureIoTDeviceNodeCredentials>;
 
 export interface AzureIoTHubReceiverOptions {
-    connectionString: string;
     consumerGroup: string;
     eventHubName: string;
 }
