@@ -9,8 +9,8 @@ import { Node } from "node-red";
 export const Status = {
     disconnected: { fill: "red", shape: "dot", text: "node-red:common.status.disconnected" },
     connected: { fill: "green", shape: "dot", text: "node-red:common.status.connected" },
-    sent: { fill: "blue", shape: "dot", text: "nkaaf:common.status.sent" },
-    received: { fill: "yellow", shape: "dot", text: "nkaaf:common.status.received" },
+    sent: { fill: "blue", shape: "dot", text: "common.status.sent" },
+    received: { fill: "yellow", shape: "dot", text: "common.status.received" },
     error: { fill: "grey", shape: "dot", text: "node-red:common.status.error" }
 } satisfies Record<string, NodeStatus>;
 
