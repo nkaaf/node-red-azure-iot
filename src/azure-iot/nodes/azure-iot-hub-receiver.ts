@@ -13,7 +13,8 @@ export class AzureIoTHubReceiver {
         this.node = node;
         this.node.on('close', this.disconnect);
 
-        this.connect(config.connectionString, config.eventHubName, config.consumerGroup);
+        const connectionString = node.credentials?.connectionString ?? "";
+        this.connect(connectionString, config.eventHubName, config.consumerGroup);
     }
 
     private connect = (connectionString: string, eventHubName: string, consumerGroup: string): void => {
@@ -49,7 +50,7 @@ export class AzureIoTHubReceiver {
             );
             this.node.status(Status.connected);
         }
-    };
+    }
 
     private disconnect = (): void => {
         if (this.client !== undefined) {
