@@ -1,6 +1,6 @@
 {
     "name": "Node-RED - Plugin",
-    "image": "mcr.microsoft.com/devcontainers/typescript-node:5.1.2-26-trixie@sha256:0d7d2e8e92f8ef400a765daf8e24ec09a776797fc00e18f1479c55bcabff5fb0",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:5.2.1-26-trixie@sha256:36fa5f5b65a12b439eed9d2c5431566e39ed58d29a6cd05eb02977bd57e5b9f8",
     "postAttachCommand": ".devcontainer/postAttach.sh",
     "customizations": {
         "vscode": {
